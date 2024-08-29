@@ -85,10 +85,7 @@ else {
     Write-Host "-Make sure your Power BI administrator can provide service principal access on your Power BI tenant."
     Write-Host "-Make sure to register the following resource providers with your Azure Subscription:"
     Write-Host "-Microsoft.Fabric"
-    Write-Host "-Microsoft.EventHub"
-    Write-Host "-Microsoft.SQLSever"
-    Write-Host "-Microsoft.StorageAccount"
-    Write-Host "-Microsoft.AppService"
+     Write-Host "-Microsoft.StorageAccount"
     Write-Host "-Make sure you use the same valid credentials to log into Azure and Power BI."
 
     Write-Host "    -----------------   "
@@ -99,7 +96,7 @@ else {
 
     Start-Sleep -s 30
 
-    az login
+    # az login
 
     #for powershell...
     Connect-AzAccount -DeviceCode
@@ -452,6 +449,6 @@ else {
     $table = $fabric_items.value | Select-Object DisplayName, Type | Format-Table -AutoSize
 
     Write-Output $table
-    
+
     Write-Host  "-----------------Execution Complete----------------"
 }
