@@ -127,7 +127,7 @@ else {
         }
         else
         {
-        $selectedSubIdx = $host.ui.PromptForChoice('Enter the desired Azure Subscription for this lab','Copy and paste the name of the subscription to make your choice.', $subOptions.ToArray(),0)
+        $selectedSubIdx = $host.ui.PromptForChoice('Enter the desired Azure Subscription for this deployment','Copy and paste the name of the subscription to make your choice.', $subOptions.ToArray(),0)
         $selectedSubName = $subs[$selectedSubIdx]
         Write-Host "Selecting the subscription : $selectedSubName "
         Select-AzSubscription -SubscriptionName $selectedSubName
