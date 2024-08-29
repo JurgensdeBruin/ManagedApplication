@@ -117,7 +117,7 @@ else {
         $selectedSubName = $subs[$selectedSubIdx]
         Write-Host "Selecting the subscription : $selectedSubName "
         $title    = 'Subscription selection'
-        $question = 'Are you sure you want to select this subscription for this lab?'
+        $question = 'Are you sure you want to select this subscription for this deployment?'
         $choices  = '&Yes', '&No'
         $decision = $Host.UI.PromptForChoice($title, $question, $choices, 1)
         if($decision -eq 0)
