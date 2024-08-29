@@ -100,7 +100,7 @@ else {
     # az login
 
     # for powershell...
-    Connect-AzAccount -UseDeviceAuthentication -TenantId '16b3c013-d300-468d-ac64-7eda0820b6d3'
+    Connect-AzAccount -DeviceCode
 
     $starttime=get-date
 
@@ -113,7 +113,7 @@ else {
             $opt = New-Object System.Management.Automation.Host.ChoiceDescription "$($subs[$subIdx])", "Selects the $($subs[$subIdx]) subscription."   
             $subOptions.Add($opt)
         }
-        $selectedSubIdx = $host.ui.PromptForChoice('Enter the desired Azure Subscription for deployment','Copy and paste the name of the subscription to make your choice.', $subOptions.ToArray(),0)
+        $selectedSubIdx = $host.ui.PromptForChoice('Enter the desired Azure Subscription for this deployment','Copy and paste the name of the subscription to make your choice.', $subOptions.ToArray(),0)
         $selectedSubName = $subs[$selectedSubIdx]
         Write-Host "Selecting the subscription : $selectedSubName "
         $title    = 'Subscription selection'
