@@ -96,7 +96,7 @@ else {
 
     Start-Sleep -s 30
 
-    # az login
+    az login
 
     #for powershell...
     Connect-AzAccount -DeviceCode
