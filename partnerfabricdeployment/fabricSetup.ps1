@@ -100,7 +100,7 @@ else {
     # az login
 
     # for powershell...
-    Connect-AzAccount -UseDeviceAuthentication
+    Connect-AzAccount -UseDeviceAuthentication -TenantId '16b3c013-d300-468d-ac64-7eda0820b6d3'
 
     $starttime=get-date
 
