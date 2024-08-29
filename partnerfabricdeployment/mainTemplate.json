@@ -1,0 +1,187 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "location": {
+        "type": "String",
+        "metadata": {
+          "description": ""
+        }
+      },
+      "storage_account_name": {
+        "type": "String",
+        "metadata": {
+          "description": ""
+        }
+      }
+    },
+    "variables": {},
+    "resources": [
+      {
+        "name": "[parameters('storage_account_name')]",
+        "type": "Microsoft.Storage/storageAccounts",
+        "apiVersion": "2020-08-01-preview",
+        "location": "[parameters('location')]",
+        "sku": {
+          "name": "Standard_LRS",
+          "tier": "Standard"
+        },
+        "kind": "StorageV2",
+        "properties": {
+          "isHnsEnabled": "true",
+          "minimumTlsVersion": "TLS1_2",
+          "allowBlobPublicAccess": true,
+          "networkAcls": {
+            "bypass": "AzureServices",
+            "defaultAction": "Allow"
+          },
+          "supportsHttpsTrafficOnly": true,
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true
+              }
+            },
+            "keySource": "Microsoft.Storage"
+          },
+          "accessTier": "Hot"
+        }
+      },
+      {
+        "name": "[concat(parameters('storage_account_name'), '/default')]",
+        "type": "Microsoft.Storage/storageAccounts/blobServices",
+        "apiVersion": "2020-08-01-preview",
+        "dependsOn": [
+          "[resourceId('Microsoft.Storage/storageAccounts', parameters('storage_account_name'))]"
+        ],
+        "sku": {
+          "name": "Standard_LRS",
+          "tier": "Standard"
+        },
+        "properties": {
+          "cors": {
+            "corsRules": [
+              {
+                "allowedOrigins": [
+                  "*"
+                ],
+                "allowedMethods": [
+                  "GET"
+                ],
+                "maxAgeInSeconds": 1000,
+                "exposedHeaders": [
+                  "*"
+                ],
+                "allowedHeaders": [
+                  "*"
+                ]
+              },
+              {
+                "allowedOrigins": [
+                  "*"
+                ],
+                "allowedMethods": [
+                  "POST"
+                ],
+                "maxAgeInSeconds": 1000,
+                "exposedHeaders": [
+                  "*"
+                ],
+                "allowedHeaders": [
+                  "*"
+                ]
+              },
+              {
+                "allowedOrigins": [
+                  "*"
+                ],
+                "allowedMethods": [
+                  "DELETE"
+                ],
+                "maxAgeInSeconds": 1000,
+                "exposedHeaders": [
+                  "*"
+                ],
+                "allowedHeaders": [
+                  "*"
+                ]
+              },
+              {
+                "allowedOrigins": [
+                  "*"
+                ],
+                "allowedMethods": [
+                  "MERGE"
+                ],
+                "maxAgeInSeconds": 1000,
+                "exposedHeaders": [
+                  "*"
+                ],
+                "allowedHeaders": [
+                  "*"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "[concat(parameters('storage_account_name'), '/default')]",
+        "type": "Microsoft.Storage/storageAccounts/queueServices",
+        "apiVersion": "2020-08-01-preview",
+        "dependsOn": [
+          "[resourceId('Microsoft.Storage/storageAccounts', parameters('storage_account_name'))]"
+        ],
+        "properties": {
+          "cors": {
+            "corsRules": []
+          }
+        }
+      },
+      {
+        "name": "[concat(parameters('storage_account_name'), '/default')]",
+        "type": "Microsoft.Storage/storageAccounts/tableServices",
+        "apiVersion": "2020-08-01-preview",
+        "dependsOn": [
+          "[resourceId('Microsoft.Storage/storageAccounts', parameters('storage_account_name'))]"
+        ],
+        "properties": {
+          "cors": {
+            "corsRules": []
+          }
+        }
+      },
+      {
+        "name": "[concat(parameters('storage_account_name'), '/default/bronzeshortcutdata')]",
+        "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+        "apiVersion": "2020-08-01-preview",
+        "dependsOn": [
+          "[resourceId('Microsoft.Storage/storageAccounts/blobServices',  parameters('storage_account_name'), 'default')]",
+          "[resourceId('Microsoft.Storage/storageAccounts',  parameters('storage_account_name'))]"
+        ],
+        "properties": {
+          "defaultEncryptionScope": "$account-encryption-key",
+          "denyEncryptionScopeOverride": false,
+          "publicAccess": "Container"
+        }
+      },
+      {
+        "name": "[concat(parameters('storage_account_name'), '/default/data-source')]",
+        "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+        "apiVersion": "2020-08-01-preview",
+        "dependsOn": [
+          "[resourceId('Microsoft.Storage/storageAccounts/blobServices',  parameters('storage_account_name'), 'default')]",
+          "[resourceId('Microsoft.Storage/storageAccounts',  parameters('storage_account_name'))]"
+        ],
+        "properties": {
+          "defaultEncryptionScope": "$account-encryption-key",
+          "denyEncryptionScopeOverride": false,
+          "publicAccess": "Container"
+        }
+      }]
+}
