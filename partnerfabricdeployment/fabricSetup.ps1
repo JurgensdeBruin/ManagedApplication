@@ -94,12 +94,15 @@ else {
     Write-Host "    -----------------   "
     Write-Host "    -----------------   "
 
-    Start-Sleep -s 30
+    #Change to 30seconds 
+    Start-Sleep -s 5
 
     # az login
 
-    #for powershell...
-    Connect-AzAccount -DeviceCode
+    # for powershell...
+    # get current tenant id
+    $currentTenantID =  az account show --query tenantId
+    Connect-AzAccount -Tenant $currentTenantID
 
     $starttime=get-date
 
