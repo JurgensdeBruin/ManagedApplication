@@ -102,7 +102,7 @@ else {
     # for powershell...
     # get current tenant id
     $currentTenantID =  az account show --query tenantId
-    Connect-AzAccount -Tenant $currentTenantID
+    Connect-AzAccount -UseDeviceAuthentication -Tenant $currentTenantID
 
     $starttime=get-date
 
