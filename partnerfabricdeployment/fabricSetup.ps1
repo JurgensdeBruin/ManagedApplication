@@ -161,16 +161,20 @@ else {
     # $max_index = $locations.Count - 1
     # $rand = (0..$max_index) | Get-Random
     $Region = read-host "Enter the region for deployment"
-    $OrganizationName = read-host "Enter the organization name"
     $subscriptionId = (Get-AzContext).Subscription.Id
     $tenantId = (Get-AzContext).Tenant.Id
     $storage_account_name = "storage$suffix"
     
     #create variables with OrganizationName in it
-    $wsId =  Read-Host "Enter your 'contosoSales' PowerBI workspace Id "
+    $wsId =  Read-Host "Enter your PowerBI workspace Id "
     
     RefreshTokens
-    $url = "https://api.powerbi.com/v1.0/myorg/groups/$wsId";
+    ## Test URL
+    $base_url = Read-host "Enter the base URL for the Power BI workspace, example: https://api.powerbi.com/v1.0/myorg/groups"
+    $url = "$base_url/$wsId"
+    #correct the url
+    # $url = "https://api.powerbi.com/v1.0/myorg/groups/$wsId";
+    
     $WsName = Invoke-RestMethod -Uri $url -Method GET -Headers @{ Authorization="Bearer $powerbitoken" };
     $WsName = $WsName.name
    
